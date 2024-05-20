@@ -52,7 +52,7 @@ jobs:
         run: |
           echo "Deploying to production..."
           mv dist/index.html dist/200.html
-          surge --project ${{ env.artifact_path }} --domain ${{ secrets.SURGE_DOMAIN }}
+          npx surge --project ${{ env.artifact_path }} --domain ${{ secrets.SURGE_DOMAIN }}
         env:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
