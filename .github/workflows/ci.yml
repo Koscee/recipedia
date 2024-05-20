@@ -1,9 +1,10 @@
 name: Deployment
 
 on:
+  pull_request:
+    branches: [main]
   push:
-    branches:
-      - develop
+    branches: [main, develop]
 
 jobs:
   deploy:
@@ -17,7 +18,11 @@ jobs:
           node-version: '20.x'
       - name: Install dependencies
         run: yarn install
-      - name: Build
+      - name: Lint code
+        run: yarn lint
+      - run: echo "${{github.ref_name}} --- ${{github.event_name}}"
+      - name: Build project
+        if: github.event_name == 'push' && github.ref_name == 'main'
         run: yarn build
       - name: Check build files
         run: ls -l dist
