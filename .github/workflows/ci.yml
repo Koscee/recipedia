@@ -15,11 +15,12 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: '20.x'
       - name: Install dependencies
@@ -47,5 +48,11 @@ jobs:
         with:
           name: ${{ env.artifact_name }}
           path: ${{ env.artifact_path }}
-      - name: Check build files
-        run: ls -l dist
+      - name: Deploy to production
+        run: |
+          echo "Deploying to production..."
+          mv dist/index.html dist/200.html
+          surge --project ${{ env.artifact_path }} --domain ${{ secrets.SURGE_DOMAIN }}
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
