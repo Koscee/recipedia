@@ -5,9 +5,15 @@ on:
     branches: [main]
   push:
     branches: [main, develop]
+  # Allows you to run this workflow manually from the Actions tab.
+  workflow_dispatch:
+
+env:
+  artifact_name: build-artifact
+  artifact_path: dist
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -20,9 +26,26 @@ jobs:
         run: yarn install
       - name: Lint code
         run: yarn lint
-      - run: echo "${{github.ref_name}} --- ${{github.event_name}}"
+      # TODO: Add test steps
       - name: Build project
-        if: github.event_name == 'push' && github.ref_name == 'main'
         run: yarn build
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.artifact_name }}
+          path: ${{ env.artifact_path }}
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    needs: build
+    # if: github.event_name == 'push' && github.ref_name == 'main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.artifact_name }}
+          path: ${{ env.artifact_path }}
       - name: Check build files
         run: ls -l dist
