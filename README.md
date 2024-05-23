@@ -74,8 +74,8 @@ yarn install
 5. Create a `.env.local` file in the root directory and add the following environment variables:
 
 ```env
-VITE_SUPABASE_URL=
-VITE_SUPABASE_ANON_KEY=
+VITE_APP_SUPABASE_URL=
+VITE_APP_SUPABASE_ANON_KEY=
 ```
 
 6. Start the development server
