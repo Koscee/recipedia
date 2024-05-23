@@ -65,7 +65,7 @@ yarn install
 
 4. Create a new table named `recipes` in the Supabase project with the following columns:
 
-- `id` (type: `uuid`, primary key)
+- `id` (type: `integer`, primary key)
 - `title` (type: `text`, not null)
 - `method` (type: `text`, not null)
 - `rating` (type: `integer`, min: `0`, max: `5`)
