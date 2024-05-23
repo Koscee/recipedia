@@ -3,7 +3,7 @@ import {
   LoaderFunctionArgs,
   redirect,
 } from 'react-router-dom';
-import { loadSupabase } from '../config';
+import { loadSupabase, TABLE_NAME } from '../config';
 import { OrderBy, PATH } from '../constant';
 import type { Recipe, Recipes } from '../types';
 
@@ -13,7 +13,7 @@ export async function getRecipes({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const sortKey = url.searchParams.get('sortKey') || OrderBy.CreatedAt;
   const { data: recipes, error } = await supabase
-    .from('recipes')
+    .from(TABLE_NAME)
     .select('*')
     .order(sortKey, { ascending: false })
     .returns<Recipes>();
@@ -26,7 +26,7 @@ export async function getRecipes({ request }: LoaderFunctionArgs) {
 
 export async function getRecipe({ params }: LoaderFunctionArgs) {
   const { data: recipe, error } = await supabase
-    .from('recipes')
+    .from(TABLE_NAME)
     .select('*')
     .match({ id: params.id })
     .limit(1)
@@ -50,7 +50,7 @@ export async function createRecipe({ request }: ActionFunctionArgs) {
     return errors;
   }
   // insert data
-  const { error } = await supabase.from('recipes').insert([data]);
+  const { error } = await supabase.from(TABLE_NAME).insert([data]);
   if (error) {
     throw new Error(error.message);
   }
@@ -67,7 +67,7 @@ export async function updateRecipe({ request, params }: ActionFunctionArgs) {
   }
   // update data
   const { error } = await supabase
-    .from('recipes')
+    .from(TABLE_NAME)
     .update(data)
     .match({ id: params.id });
 
@@ -82,7 +82,7 @@ export async function deleteRecipe({ request }: ActionFunctionArgs) {
   const recipeId = formData.get('recipeId');
   console.info(`Deleting card with id: ${recipeId}...`);
   const { error } = await supabase
-    .from('recipes')
+    .from(TABLE_NAME)
     .delete()
     .match({ id: recipeId })
     .single();
