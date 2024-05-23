@@ -1,6 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 import { getEnvValue } from '../utils';
 
+export const TABLE_NAME = 'recipes';
+
 let supabase: ReturnType<typeof createClient>;
 
 export function loadSupabase() {

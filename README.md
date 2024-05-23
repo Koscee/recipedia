@@ -1,30 +1,101 @@
-# React + TypeScript + Vite
+# ![logo](https://recipedia-app.surge.sh/logo.svg)Recipedia &middot; [![build-badge]][build]
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[build-badge]: https://img.shields.io/github/actions/workflow/status/koscee/recipedia/ci.yml?label=build&logo=github
+[build]: (https://github.com/koscee/recipedia/actions/workflows/ci.yml/badge.svg)
 
-Currently, two official plugins are available:
+This is a simple online recipe manual. Visit the [Recipedia](https://recipedia-app.surge.sh/) website to view the live demo.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<img src="docs/screenshots/recipedia-homepage.png" alt="homepage" height=300 />
 
-## Expanding the ESLint configuration
+## Table of Contents
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- [Features](#features)
+- [Technologies](#technologies)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [ESLint Configuration](#eslint-configuration)
+  - [Running ESLint](#running-eslint)
+- [Contributing](#contributing)
 
-- Configure the top-level `parserOptions` property like this:
+## Features
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+- Add, edit, and delete recipes
+- View recipe details
+- View recipe instructions
+- Search for recipes `upcoming feature`
+- Filter recipes by category `upcoming feature`
+- View recipe ingredients `upcoming feature`
+- View recipe nutrition facts `upcoming feature`
+- View recipe reviews `upcoming feature`
+
+## Technologies
+
+- [React v18](https://reactjs.org/)
+- [Vite](https://vitejs.dev/)
+- [TypeScript v5](https://www.typescriptlang.org/)
+- [ESLint](https://eslint.org/)
+- [React Router v6](https://reactrouter.com/)
+- [Supabase](https://supabase.io/)
+- [Docker](https://www.docker.com/) `will be added soon`
+
+## Getting Started
+
+### Prerequisites
+
+- [Node.js 20.x](https://nodejs.org/)
+- [Yarn v1.22.21](https://yarnpkg.com/)
+- [Supabase](https://supabase.io/)
+
+### Installation
+
+1. Clone the repository
+
+```bash
+git clone
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+2. Install dependencies
+
+```bash
+yarn install
+```
+
+3. Login to your Supabase account and create a new project. Ensure to copy the project URL and anon key.
+
+4. Create a new table named `recipes` in the Supabase project with the following columns:
+
+- `id` (type: `uuid`, primary key)
+- `title` (type: `text`, not null)
+- `method` (type: `text`, not null)
+- `rating` (type: `integer`, min: `0`, max: `5`)
+- `created_at` (type: `timestamp`, default: `now()`)
+
+5. Create a `.env.local` file in the root directory and add the following environment variables:
+
+```env
+VITE_APP_SUPABASE_URL=
+VITE_APP_SUPABASE_ANON_KEY=
+```
+
+6. Start the development server
+
+```bash
+yarn dev
+```
+
+## ESLint Configuration
+
+This project uses ESLint to enforce code quality and consistency.
+
+### Running ESLint
+
+To run ESLint, use the following command:
+
+```bash
+yarn lint
+```
+
+## Contributing
+
+Contributions are welcome! Please refer to the [contributing guidelines](CONTRIBUTING.md) for more information.
